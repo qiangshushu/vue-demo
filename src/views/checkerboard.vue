@@ -1,9 +1,11 @@
 <template>
   <div>
-    <canvas ref="checkerboard" @click="yourTurn"></canvas>
-    <img ref="white" src="~assets/white.png" alt="" v-show="0">
-    <img ref="black" src="~assets/black.png" alt="" v-show="0">
-    <button v-if="step > 1" @click="back">上一步</button>
+    <div class="content">
+      <canvas ref="checkerboard" @click="yourTurn"></canvas>
+      <img ref="white" src="~assets/white.png" alt="" v-show="0">
+      <img ref="black" src="~assets/black.png" alt="" v-show="0">
+      <button v-if="step > 1" @click="back">上一步</button>
+    </div>
   </div>
 </template>
 
@@ -13,7 +15,7 @@
       return {
         canvas: null,
         ctx: null,
-        cw: 800,
+        cw: 700,
         padding: 40,
         size: 15,
         uw: 0,
@@ -21,7 +23,7 @@
         black: null,
         wins: [], //所有的赢法
         points: [], //所有的点
-        step: 0, //步骤
+        step: 0, //步骤 1黑，2白
         gameover: false
       };
     },
@@ -91,7 +93,7 @@
         this.points = [];
         for(let x = 0; x < this.size; x++) {
           for(let y = 0; y < this.size; y++) {
-            this.points.push({ x, y, step: -1, disabled: false, score: 0, bWay: 0, wWay: 0 });
+            this.points.push({ x, y, step: 0, disabled: false, score: 0, bWay: 0, wWay: 0 });
           }
         }
 
@@ -118,7 +120,6 @@
       computeScore() {
         for(let i = 0; i < this.points.length; i++) {
           if(this.gameover) {
-            this.start();
             break;
           }
           let p = this.points[i];
@@ -133,13 +134,11 @@
               let black = Object.values(w).filter(i => i === 0);
 
               if(black.length === 5) {
-                alert('you win!');
                 this.gameover = true;
                 break;
               }
 
               if(white.length === 5) {
-                alert('computer win!');
                 this.gameover = true;
                 break;
               }
@@ -150,7 +149,6 @@
               if(!Object.values(w).includes(1)) {
                 p.bWay++;
               }
-              // console.log(w, white.length, black.length);
               switch(white.length) {
                 case 0:
                   p.score += 11;
@@ -159,16 +157,13 @@
                   p.score += 220;
                   break;
                 case 2:
-                  p.score += 4400;
+                  p.score += 420;
                   break;
                 case 3:
-                  p.score += 88000;
+                  p.score += 2100;
                   break;
                 case 4:
-                  p.score += 1760000;
-                  break;
-                case 5:
-                  p.score += 35200000;
+                  p.score += 20000;
                   break;
                 default:
                   p.score += 1;
@@ -182,16 +177,13 @@
                   p.score += 200;
                   break;
                 case 2:
-                  p.score += 4000;
+                  p.score += 400;
                   break;
                 case 3:
-                  p.score += 80000;
+                  p.score += 2000;
                   break;
                 case 4:
-                  p.score += 1600000;
-                  break;
-                case 5:
-                  p.score += 32000000;
+                  p.score += 10000;
                   break;
                 default:
                   p.score += 1;
@@ -211,7 +203,6 @@
         //   this.ctx.fillStyle = 'red';
         //   this.ctx.fillText(' ' + p.score, p.x * this.uw + this.padding, p.y * this.uw + this.padding + 10);
         // });
-        // console.log('points', this.points);
       },
       yourTurn(e) {
         let x = Math.round((e.layerX - this.padding) / this.uw);
@@ -225,15 +216,13 @@
           }
         });
         this.points[x * this.size + y].disabled = true;
-        this.points[x * this.size + y].step = this.step++;
+        this.points[x * this.size + y].step = ++this.step;
 
         this.drawCheckerboard();
         this.drawPoints();
-        this.computerTurn();
       },
       computerTurn() {
         let point = this.points.filter(item => !item.disabled).max('score');
-        console.log(this.points, point);
         let x = point.x;
         let y = point.y;
         this.wins.forEach(w => {
@@ -242,7 +231,7 @@
           }
         });
         this.points[x * this.size + y].disabled = true;
-        this.points[x * this.size + y].step = this.step++;
+        this.points[x * this.size + y].step = ++this.step;
         this.drawCheckerboard();
         this.drawPoints();
       },
@@ -250,9 +239,19 @@
         this.points.filter(item => item.disabled).forEach(item => {
           let x = item.x * this.uw + this.padding;
           let y = item.y * this.uw + this.padding;
-          this.ctx.drawImage(item.step % 2 ? this.white : this.black, x - this.uw / 2, y - this.uw / 2, this.uw, this.uw);
+          this.ctx.drawImage(item.step % 2 ? this.black : this.white, x - this.uw / 2, y - this.uw / 2, this.uw, this.uw);
         });
-        this.computeScore();
+        setTimeout(() => {
+          this.computeScore();
+          if(this.gameover) {
+            alert((this.step % 2 ? 'you' : 'computer') + ' win!');
+            this.start();
+          } else {
+            if(this.step % 2) {
+              this.computerTurn();
+            }
+          }
+        }, 0);
       },
       back() {
         Object.assign([], this.points).sort((a, b) => a.step > b.step).slice(-2).forEach(item => {
@@ -262,7 +261,7 @@
             }
           });
           item.disabled = false;
-          item.step = -1;
+          item.step = 0;
         });
         this.drawCheckerboard();
         this.drawPoints();
@@ -270,3 +269,10 @@
     }
   };
 </script>
+
+<style scoped lang="less">
+  .content {
+    overflow: auto;
+  }
+</style>
+
