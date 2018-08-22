@@ -14,28 +14,8 @@
     data() {
       return {
         catalog: [{
-          title: '介绍',
-          path: 'introduction'
-        },
-        {
-          title: '生命周期',
-          path: 'lifecycle'
-        },
-        {
-          title: '渲染',
-          path: 'render'
-        },
-        {
-          title: '事件',
-          path: 'event'
-        },
-        {
-          title: '组件',
-          path: 'component'
-        },
-        {
-          title: '问题',
-          path: 'questions'
+          title: '五子棋',
+          path: 'checkerboard'
         }]
       };
     }

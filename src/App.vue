@@ -29,11 +29,11 @@
   @import './style/index.less';
   .slide-left-enter,
   .slide-right-leave-active {
-    -webkit-transform: translate(100%, 0);
+    transform: translate(100%, 0);
   }
   .slide-left-leave-active,
   .slide-right-enter {
-    -webkit-transform: translate(-100%, 0);
+    transform: translate(-100%, 0);
   }
   html,
   body {
