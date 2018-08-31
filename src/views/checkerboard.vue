@@ -17,7 +17,7 @@
         ctx: null,
         cw: 700,
         padding: 40,
-        size: 15,
+        size: 8,
         uw: 0,
         white: null,
         black: null,
@@ -83,11 +83,7 @@
         }
 
         this.wins = this.wins.map(item => {
-          let obj = {};
-          item.forEach(i => {
-            obj[i] = null;
-          });
-          return obj;
+          return item.map(key => ({ [key]: '' }));
         });
 
         this.points = [];
@@ -128,11 +124,12 @@
           p.score = 0;
           for(let j = 0; j < this.wins.length; j++) {
             let w = this.wins[j];
-
-            if(w[`${p.x},${p.y}`] !== undefined) {
+            let wKeys = w.map(k => Object.keys(k)[0]);
+            let wValues = w.map(k => Object.values(k)[0]);
+            if(wKeys.includes(`${p.x},${p.y}`)) {
+              console.log(wKeys, wValues);
               let white = Object.values(w).filter(i => i === 1);
               let black = Object.values(w).filter(i => i === 0);
-
               if(black.length === 5) {
                 this.gameover = true;
                 break;
@@ -143,30 +140,88 @@
                 break;
               }
 
-              if(!Object.values(w).includes(0)) {
-                p.wWay++;
+
+
+              // if(!Object.values(w).includes(0)) {
+              //   p.wWay++;
+              // }
+              // if(!Object.values(w).includes(1)) {
+              //   p.bWay++;
+              // }
+
+              /**
+               *死四A     AAAA? 2500
+               *死四B     AAA?A 3000
+               *死四C     AA?AA 2600
+               *活三      ?AAA? 3000
+               *死三A     AAA?? 500
+               *死三B     A?AA? 800
+               *死三C     A??AA 600
+               *死三D     A?A?A 550
+               *活二      ??AA? 650
+               *死二A     AA??? 150
+               *死二B     ?A?A? 250
+               *死二C     A??A? 200
+               *死二D     A?A?? 100
+               *死二E     A???A 50
+              */
+
+              let wStr = wKeys.join();
+              // *死四A
+              if(wStr.match(/1,1,1,1,/) || wStr.match(/,1,1,1,1/)) {
+                p.score += 2500;
               }
-              if(!Object.values(w).includes(1)) {
-                p.bWay++;
+              // *死四B
+              if(wStr.match(/1,1,1,,1/) || wStr.match(/1,,1,1,1/)) {
+                p.score += 3000;
               }
-              switch(white.length) {
-                case 0:
-                  p.score += 11;
-                  break;
-                case 1:
-                  p.score += 220;
-                  break;
-                case 2:
-                  p.score += 420;
-                  break;
-                case 3:
-                  p.score += 2100;
-                  break;
-                case 4:
-                  p.score += 20000;
-                  break;
-                default:
-                  p.score += 1;
+              // *死四C
+              if(wStr.match(/1,1,,1,1/)) {
+                p.score += 2600;
+              }
+              // *活三
+              if(wStr.match(/,1,1,1,/)) {
+                p.score += 3000;
+              }
+              // *死三A
+              if(wStr.match(/1,1,1,,/) || wStr.match(/,,1,1,1/)) {
+                p.score += 500;
+              }
+              // *死三B
+              if(wStr.match(/,1,,1,1/) || wStr.match(/1,1,,1,/)) {
+                p.score += 800;
+              }
+              // *死三C
+              if(wStr.match(/1,,,1,1/) || wStr.match(/1,1,,,1/)) {
+                p.score += 800;
+              }
+              // *死三D
+              if(wStr.match(/1,,1,,1/)) {
+                p.score += 800;
+              }
+              // *活二
+              if(wStr.match(/1,,,1,1/) || wStr.match(/1,1,,,1/)) {
+                p.score += 650;
+              }
+              // *死二A
+              if(wStr.match(/1,1,,,/) || wStr.match(/,,,1,1/)) {
+                p.score += 150;
+              }
+              // *死二B
+              if(wStr.match(/,1,,1,/)) {
+                p.score += 250;
+              }
+              // *死二C
+              if(wStr.match(/1,,,1,/) || wStr.match(/,1,,,1/)) {
+                p.score += 200;
+              }
+              // *死二D
+              if(wStr.match(/1,,1,,/) || wStr.match(/,,1,,1/)) {
+                p.score += 100;
+              }
+              // *死二E
+              if(wStr.match(/1,,,,1/)) {
+                p.score += 50;
               }
 
               switch(black.length) {
@@ -192,17 +247,17 @@
           }
         }
 
-        // this.points.forEach(p => {
-        //   this.ctx.fontSize = 20;
-        //   this.ctx.textAlign = 'right';
-        //   this.ctx.fillStyle = 'black';
-        //   this.ctx.fillText(p.bWay + ' ', p.x * this.uw + this.padding, p.y * this.uw + this.padding);
-        //   this.ctx.fillStyle = 'red';
-        //   this.ctx.fillText(p.wWay + ' ', p.x * this.uw + this.padding, p.y * this.uw + this.padding + 10);
-        //   this.ctx.textAlign = 'left';
-        //   this.ctx.fillStyle = 'red';
-        //   this.ctx.fillText(' ' + p.score, p.x * this.uw + this.padding, p.y * this.uw + this.padding + 10);
-        // });
+        this.points.forEach(p => {
+          this.ctx.fontSize = 20;
+          // this.ctx.textAlign = 'right';
+          // this.ctx.fillStyle = 'black';
+          // this.ctx.fillText(p.bWay + ' ', p.x * this.uw + this.padding, p.y * this.uw + this.padding);
+          // this.ctx.fillStyle = 'red';
+          // this.ctx.fillText(p.wWay + ' ', p.x * this.uw + this.padding, p.y * this.uw + this.padding + 10);
+          // this.ctx.textAlign = 'left';
+          this.ctx.fillStyle = 'red';
+          this.ctx.fillText(' ' + p.score, p.x * this.uw + this.padding, p.y * this.uw + this.padding + 10);
+        });
       },
       yourTurn(e) {
         let x = Math.round((e.layerX - this.padding) / this.uw);

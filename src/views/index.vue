@@ -13,10 +13,16 @@
   export default {
     data() {
       return {
-        catalog: [{
-          title: '五子棋',
-          path: 'checkerboard'
-        }]
+        catalog: [
+          {
+            title: '五子棋',
+            path: 'checkerboard'
+          },
+          {
+            title: '滑动',
+            path: 'slide'
+          }
+        ]
       };
     }
   };

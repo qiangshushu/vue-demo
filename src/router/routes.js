@@ -10,6 +10,11 @@ const router = [
     component: () => import('@/views/checkerboard')
   },
   {
+    name: 'slide',
+    path: '/slide',
+    component: () => import('@/views/slide')
+  },
+  {
     path: '*',
     redirect: '/'
   }
