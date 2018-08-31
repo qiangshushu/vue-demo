@@ -7,7 +7,6 @@
 </template>
 
 <script>
-  console.log(2);
   export default {
     data() {
       return {
