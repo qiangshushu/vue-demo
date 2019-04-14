@@ -4,7 +4,7 @@
     apihost: 'http://172.16.6.123/', //接口地址
     designWidth: 750,
     mock: true,
-    test:2
+    test:3
   };
   console.log(win.htp);
 })(window);
