@@ -6,4 +6,5 @@
     mock: true,
     test:1
   };
+  console.log(win.htp);
 })(window);
