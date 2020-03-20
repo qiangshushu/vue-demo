@@ -1,23 +1,14 @@
-// https://eslint.org/docs/user-guide/configuring
-
 module.exports = {
   root: true,
-  parser: 'babel-eslint',
-  parserOptions: {
-    sourceType: 'module'
-  },
-  // required to lint *.vue files
-  extends: 'vue',
-  plugins: ['html'],
   env: {
-    browser: true,
-    node: true,
-    es6: true
+    node: true
   },
-  // add your custom rules here
+  extends: ['plugin:vue/essential', 'eslint:recommended', '@vue/standard'],
   rules: {
-    // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'vue/no-use-v-if-with-v-for': 'off',
+    'vue/no-parsing-error': ['off'],
     'no-alert': 0, //禁止使用alert confirm prompt
     'no-array-constructor': 2, //禁止使用数组构造器
     'no-bitwise': 0, //禁止使用按位运算符
@@ -54,7 +45,7 @@ module.exports = {
     'no-inline-comments': 0, //禁止行内备注
     'no-inner-declarations': [2, 'functions'], //禁止在块语句中使用声明（变量或函数）
     'no-invalid-regexp': 2, //禁止无效的正则表达式
-    'no-invalid-this': 1, //禁止无效的this，只能用在构造器，类，对象字面量
+    'no-invalid-this': 0, //禁止无效的this，只能用在构造器，类，对象字面量
     'no-irregular-whitespace': 2, //不能有不规则的空格
     'no-iterator': 2, //禁止使用__iterator__ 属性
     'no-label-var': 2, //label名不能与var声明的变量名相同
@@ -62,6 +53,7 @@ module.exports = {
     'no-lone-blocks': 2, //禁止不必要的嵌套块
     'no-lonely-if': 0, //禁止else语句内只有if语句
     'no-loop-func': 1, //禁止在循环中使用函数（如果没有引用外部变量不形成闭包就可以）
+    'no-mixed-operators': [0],
     'no-mixed-requires': [0, false], //声明时不能混用声明类型
     'no-mixed-spaces-and-tabs': [2, false], //禁止混用tab和空格
     'linebreak-style': [0, 'windows'], //换行风格
@@ -109,7 +101,7 @@ module.exports = {
     'no-unneeded-ternary': 2, //禁止不必要的嵌套 var isYes = answer === 1 ? true : false;
     'no-unreachable': 2, //不能有无法执行的代码
     'no-unused-expressions': 0, //禁止无用的表达式
-    'no-unused-vars': [0, { vars: 'all', args: 'after-used' }], //不能有声明后未被使用的变量或参数
+    'no-unused-vars': [2, { vars: 'all', args: 'after-used' }], //不能有声明后未被使用的变量或参数
     'no-use-before-define': 2, //未定义前不能使用
     'no-useless-call': 2, //禁止不必要的call和apply
     'no-void': 2, //禁用void操作符
@@ -123,7 +115,7 @@ module.exports = {
     'block-scoped-var': 0, //块语句中使用var
     'brace-style': [1, '1tbs'], //大括号风格
     'callback-return': 0, //避免多次调用回调什么的
-    camelcase: 1, //强制驼峰法命名
+    camelcase: 0, //强制驼峰法命名
     'comma-dangle': [2, 'never'], //对象字面量项尾不能有逗号
     'comma-spacing': 0, //逗号前后的空格
     'comma-style': [2, 'last'], //逗号风格，换行时在行首还是行尾
@@ -175,7 +167,7 @@ module.exports = {
     'sort-vars': 0, //变量声明时排序
     'space-after-keywords': [0, 'always'], //关键字后面是否要空一格
     'space-before-blocks': [2, 'always'], //不以新行开始的块{前面要不要有空格
-    'space-before-function-paren': [2, 'never'], //函数定义时括号前面要不要有空格
+    'space-before-function-paren': 0, //函数定义时括号前面要不要有空格
     'space-in-parens': [2, 'never'], //小括号里面要不要有空格
     'space-infix-ops': 0, //中缀操作符周围要不要有空格
     'space-unary-ops': [2, { words: true, nonwords: false }], //一元运算符的前/后要不要加空格
@@ -188,6 +180,12 @@ module.exports = {
     'wrap-iife': [2, 'inside'], //立即执行函数表达式的小括号风格
     'wrap-regex': 0, //正则表达式字面量用小括号包起来
     yoda: [2, 'never'], //禁止尤达条件
-    'keyword-spacing': 0 //确保字符前后空格的一致性
+    'keyword-spacing': 0, //确保字符前后空格的一致性
+    'vue/no-use-v-if-with-v-for': 0,
+    'standard/no-callback-literal': 0,
+    'prefer-promise-reject-errors': 0
+  },
+  parserOptions: {
+    parser: 'babel-eslint'
   }
 };

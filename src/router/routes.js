@@ -2,26 +2,19 @@ const router = [
   {
     name: 'index',
     path: '/',
-    component: () => import('@/views/index')
+    component: () => import('@/views/home')
   },
   {
-    name: 'checkerboard',
-    path: '/checkerboard',
-    component: () => import('@/views/checkerboard')
+    name: 'login',
+    path: '/login',
+    component: () => import('@/views/login')
   },
   {
-    name: 'slide',
-    path: '/slide',
-    component: () => import('@/views/slide')
+    path: '/404',
+    component: () => import('@/views/404'),
+    hidden: true
   },
-  {
-    path: '*',
-    redirect: '/'
-  }
-  // {
-  //   path: '/',
-  //   redirect: '/index'
-  // }
+  { path: '*', redirect: '/404', hidden: true }
 ];
 
 export default router;

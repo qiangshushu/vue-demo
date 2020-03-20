@@ -1,23 +1,30 @@
 import Vue from 'vue';
-import VueRouter from 'vue-router';
+import Router from 'vue-router';
 import routes from './routes';
+import session from '@/utils/session';
 
-Vue.use(VueRouter);
+Vue.use(Router);
 
-const router = new VueRouter({
-  mode: 'hash',
-  linkActiveClass: 'is-active',
-  routes
-});
+const router = new Router({ mode: 'hash', routes });
+const whiteList = ['/login', '/404'];
+const LOGIN_PAGE_NAME = 'login';
 
 router.beforeEach((to, from, next) => {
-  //解决messagebox在切换路由时不取消的bug
-  if (document.querySelector('.mint-msgbox-cancel')) {
-    document.querySelector('.mint-msgbox-cancel').click();
+  if (whiteList.indexOf(to.path) === -1) {
+    const token = session.get('token');
+
+    if (!token && to.name !== LOGIN_PAGE_NAME) {
+      next({ name: LOGIN_PAGE_NAME });
+    } else {
+      next();
+    }
+  } else {
+    next();
   }
-  return next();
 });
 
-router.afterEach(() => {});
+router.afterEach(to => {
+  window.scrollTo(0, 0);
+});
 
 export default router;
