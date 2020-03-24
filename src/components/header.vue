@@ -1,29 +1,32 @@
 <template>
-  <mt-header :title="title">
-    <mt-button icon="back" v-if="isDefined('back')" @click="backHandler" slot="left">返回</mt-button>
-    <!-- <mt-button slot="right">分享</mt-button>
-    <mt-button slot="right">分享</mt-button> -->
-  </mt-header>
+  <van-nav-bar :title="title" :left-text="leftText" :right-text="rightText" :left-arrow="leftArrow" @click-left="onClickLeft" @click-right="onClickRight" />
 </template>
 
 <script>
   export default {
-    props: ['title', 'back'],
+    props: {
+      title: {
+        type: String,
+        default: '标题'
+      },
+      leftText: {
+        type: String
+      },
+      rightText: {
+        type: String
+      },
+      leftArrow: {
+        type: Boolean,
+        default: false
+      },
+      onClickRight: {
+        type: Function,
+        default: () => { }
+      }
+    },
     methods: {
-      isDefined(val) {
-        return this[val] !== undefined;
-      },
-      isFunction(val) {
-        return this[val] === 'function';
-      },
-      backHandler() {
-        if(this.isDefined('back')) {
-          if(this.isFunction('back')) {
-            this.back();
-          } else {
-            this.$router.go(-1);
-          }
-        }
+      onClickLeft() {
+        this.$router.go(-1);
       }
     }
   };

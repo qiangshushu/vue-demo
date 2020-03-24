@@ -1,4 +1,5 @@
 const session = {};
+const prefix = process.env.VUE_APP_PROJECT_NAME;
 
 /**
  * @description 存储 session 值
@@ -6,7 +7,7 @@ const session = {};
  * @param {String} value session value
  */
 session.set = function(name = 'default', value = '') {
-  sessionStorage.setItem(`hdr-${name}`, JSON.stringify(value));
+  sessionStorage.setItem(`${prefix}-${name}`, JSON.stringify(value));
 };
 
 /**
@@ -14,7 +15,7 @@ session.set = function(name = 'default', value = '') {
  * @param {String} name session name
  */
 session.get = function(name = 'default') {
-  let uu = sessionStorage.getItem(`hdr-${name}`);
+  let uu = sessionStorage.getItem(`${prefix}-${name}`);
 
   try {
     if (typeof JSON.parse(uu) != 'number') {
@@ -29,7 +30,7 @@ session.get = function(name = 'default') {
  * @param {String} name session name
  */
 session.remove = function(name = 'default') {
-  return sessionStorage.removeItem(`hdr-${name}`);
+  return sessionStorage.removeItem(`${prefix}-${name}`);
 };
 
 export default session;

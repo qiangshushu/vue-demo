@@ -2,11 +2,10 @@ import Vant from 'vant';
 import 'normalize.css';
 import 'vant/lib/index.css';
 import '@/style/index.scss';
-console.log(Vant);
 
 import components from '@/components';
 import directives from '@/directives';
-// import filters from '@/filters';
+import filters from '@/filters';
 
 export default {
   async install(Vue) {
@@ -22,9 +21,12 @@ export default {
       Vue.directive(key, directives[key]);
     });
 
+    Object.keys(filters).forEach(key => {
+      Vue.filter(key, filters[key]);
+    });
+
     Vue.config.productionTip = false;
 
-    console.log(Vue.prototype);
     // Vue.prototype.$loading = Vant.service;
     // Vue.prototype.$confirm = Vant.confirm;
     // Vue.prototype.$message = Vant;

@@ -25,8 +25,13 @@ const i18n = new VueI18n({
   messages
 });
 
-Locale.use('en', enUS);
+function changeLang(val) {
+  if (val === 'zh') {
+    Locale.use(val, zhCN);
+  } else {
+    Locale.use(val, enUS);
+  }
+  i18n.locale = val;
+}
 
-// Locale.i18n((key, value) => i18n.t(key, value)); //重点：为了实现element插件的多语言切换
-
-export default i18n;
+export { i18n, changeLang };

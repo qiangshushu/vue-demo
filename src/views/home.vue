@@ -1,6 +1,7 @@
 <template>
   <div>
-    <van-calendar v-model="show" @confirm="onConfirm" />
+    <v-header left-text="返回"></v-header>
+    <van-calendar v-model="show" />
   </div>
 </template>
 
@@ -11,5 +12,5 @@
         show: true
       };
     }
-  }
+  };
 </script>

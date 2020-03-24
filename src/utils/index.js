@@ -1,5 +1,3 @@
-import store from '../store';
-
 //get params from url
 export function getParams(url) {
   url = url || window.location.href;
@@ -313,3 +311,5 @@ export function spread(cb) {
 export function jsonCallback(data) {
   return { data, errorCode: [], status: 10000000 };
 }
+
+export const RandomNum = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;

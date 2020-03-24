@@ -2,7 +2,7 @@ import Vue from 'vue';
 import App from '@/App';
 import router from '@/router';
 import store from '@/store';
-import i18n from '@/locale';
+import { i18n } from '@/locale';
 import plugin from '@/plugin';
 
 Vue.use(plugin, { store });

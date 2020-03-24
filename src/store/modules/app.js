@@ -1,29 +1,30 @@
-import session from '@/utils/session';
-import { xhr, apis } from '@/api';
-
-console.log(xhr, apis);
+import Session from '@/utils/session';
+import Cookie from '@/utils/cookie';
+import api from '@/api';
+import { changeLang } from '@/locale';
 
 const app = {
   namespaced: true,
   state: {
-    language: session.get('language') || 'zh', // en|zh
-    token: session.get('token') || ''
+    language: Session.get('language') || 'zh', // en|zh
+    token: Cookie.get('token') || ''
   },
   mutations: {
     setLanguage: (state, language) => {
       state.language = language;
-      session.set('language', language);
+      Session.set('language', language);
+      changeLang(language);
     },
     setToken(state, data) {
       state.token = data;
-      session.set('token', data);
+      Cookie.set('token', data);
     }
   },
   actions: {
     // 获取语言
     reqGetLanguage({ commit }) {
       api.getLanguage().then(res => {
-        commit('setLanguage', res.language ? 'zh' : 'en');
+        commit('setLanguage', res.lang);
       });
     },
     // 设置语言
@@ -33,10 +34,10 @@ const app = {
       });
     },
     // 登录
-    login({ commit }, { vm, password, token }) {
-      api.login(password, token).then(() => {
-        commit('setToken', token);
-        vm.$router.push({ name: 'hdr' });
+    login({ commit }, { vm, username, password }) {
+      api.login({ username, password }).then(res => {
+        commit('setToken', res.token);
+        vm.$router.push({ name: 'index' });
       });
     }
   }
